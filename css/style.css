@@ -145,6 +145,15 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .footer__bottom { position: relative; }
 .footer__name { width: 100%; text-transform: uppercase; font-size: clamp(5rem, 15vw, 16rem); font-weight: 500; line-height: .8; }
 .footer__year { position: absolute; right: 0; top: 100%; padding-top: .4rem; }
+/* on wide screens keep the big name inside its own half so it never touches the picture */
+@media (min-width: 768px) and (max-width: 991px) {
+  .footer__name { font-size: 11.5vw; }
+  .footer__logo { margin-left: 1.5rem; }
+}
+@media (min-width: 992px) {
+  .footer__name { font-size: clamp(5rem, 11.2vw, 15rem); }
+  .footer__logo { margin-left: 2rem; }
+}
 
 /* tablet */
 @media (max-width: 991px) {
