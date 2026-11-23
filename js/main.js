@@ -178,6 +178,28 @@
         }
       });
     });
+
+    /* scroll motion: pictures unveil from the bottom, drift slowly inside their frame (uniform scale, never stretched),
+       text blocks and process steps rise in, and a thin bar tracks the page. Logo and characters stay still. */
+    function scrollFx(k) {
+      $$('.slot:not(.is-clear)').forEach(function (slot) {
+        var img = $('img', slot);
+        if (!img || slot.closest('.three')) return;
+        gsap.fromTo(slot, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: slot, start: 'top 88%', once: true } });
+        gsap.fromTo(img, { scale: 1.18, yPercent: -7 * k }, { scale: 1.18, yPercent: 7 * k, ease: 'none', scrollTrigger: { trigger: slot, start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+      $$('.about__heading, .services__heading, .process__heading, .projects__cta, .pane p, .step, .footer__top > *').forEach(function (el) {
+        gsap.from(el, { opacity: 0, y: 28 * k, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+      });
+      if ($('.cta__content')) gsap.from('.cta__content', { opacity: 0, x: 40 * k, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.cta', start: 'top 75%', once: true } });
+    }
+    var mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', function () { scrollFx(1); });
+    mm.add('(max-width: 767px)', function () { scrollFx(0.5); });
+    var bar = document.createElement('div');
+    bar.className = 'progress';
+    document.body.appendChild(bar);
+    gsap.to(bar, { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
   });
 
   /* ---------- project pages: the clicked card picture morphs into the first project image ---------- */
